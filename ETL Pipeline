@@ -21,3 +21,328 @@ def extract():
     print(raw_data.head())
     return raw_data
 raw_stock_data = extrat()
+
+# Extracting the data from web
+import os
+
+YEARS = [str(i) for i in range(2010, 2021+1)]
+URLS = [
+    f"https://download.inep.gov.br/dados_abertos/microdados_censo_escolar_{year}.zip"
+    for year in YEARS
+]
+
+if __name__ == "__main__":
+    
+    for year, url in zip(YEARS, URLS):
+        # Download the data to the ./data directory
+        command  = f"wget {url} -P ./data"
+        # Unzip the files 
+        command += " && unzip ./data/{} -d ./data".format(url.split("/")[-1])
+        # go to the ./data/year/data directory and move
+        # .csv or .CSV files to the ./data directory
+        command += f" && mv $(echo $(find ./data/{year}/dados/ -regextype posix-extended -regex '.+(csv|CSV)' )) ./data/{year}.csv"
+        # Erase remaining files
+        command += f" && rm -rf ./data/{year}/"
+        os.system(command)
+        
+    # Erase zip files
+    os.system("rm -rf ./data/*.zip")
+
+# Transforming CSV into Parquet
+from pyspark.sql import SparkSession
+import pyspark.sql.functions as F
+
+spark = SparkSession.builder\
+        .appName("CensoEscolarStarSchema")\
+        .config("spark.sql.shuffle.partitions", "4")\
+        .getOrCreate()
+
+# Read CSV data
+data_csv = (
+    spark
+    .read
+    .format("csv")
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .option("delimiter", ";")
+    .option("encoding", "latin1")
+    .load("./data/*.csv")
+)
+
+# Save the data as a parquet file
+data_csv.write.parquet("./data/censo_escolar.parquet")
+
+data = (
+    spark
+    .read
+    .format("parquet")
+    .load("./data/censo_escolar.parquet/")
+)
+
+###########Dimention Table ###############
+POSTGRES_CONFIG = {
+    "url":f"jdbc:postgresql://localhost:5432/censo_escolar",
+    "properties":{
+        "user":"censo", 
+        "password":"123",
+        "driver":"org.postgresql.Driver",
+    },
+}
+
+DIM_COLUMNS = [
+  'NO_UF', 'SG_UF', 'CO_UF', # State's data
+  'NO_MUNICIPIO', 'CO_MUNICIPIO' # City's data
+]
+
+data\
+.select(
+    # Selecting the dimension table's columns
+    [
+        F
+        .col(field["field"])
+        .cast("string")
+        
+        for field
+        in DIM_COLUMNS
+    ]
+)\
+.distinct()\ # Extracting the unique values
+.withColumn( # Adding an distinct id for each unque record 
+    "id", F.monotonically_increasing_id()
+)\
+.write\ # Writing to Postgres  
+.jdbc(
+    **POSTGRES_CONFIG,
+    table="DIM_LOCAL",
+    mode="overwrite"
+)
+
+# Configuring the postgres connection
+conn = psycopg2.connect(
+    host="localhost",
+    port="5432",
+
+    dbname=POSTGRES_DB,
+    user=POSTGRES_USER,
+    password=POSTGRES_PASSWORD
+)
+
+# Define id as the primary key
+cursor = conn.cursor()
+cursor.execute(
+    "ALTER TABLE DIM_LOCAL ADD PRIMARY KEY (id);"
+)
+cursor.close()
+conn.commit()
+
+# specifying the fields (with their types) that compose the dimension
+INTEGER_DIMENSIONS = [
+    "TP_DEPENDENCIA",           # The school administration (state, city, private) 
+    "TP_LOCALIZACAO",           # The school location (urban rural)
+    "IN_AGUA_POTAVEL",          # has access to drinkable water 
+    "IN_ENERGIA_INEXISTENTE",   # has (NOT) access to energy
+    "IN_ESGOTO_INEXISTENTE",    # has (NOT) access to energy
+    "IN_BANHEIRO",              # has restroom
+    "IN_BIBLIOTECA",            # has library
+    "IN_REFEITORIO",            # has canteen 
+    "IN_COMPUTADOR",            # has computer
+    "IN_INTERNET",              # has internet
+    "IN_EQUIP_NENHUM"           # no electronic equipment
+]
+
+DIMENSION_TABLES_CONFIG = {
+    "DIM_LOCAL":{
+        "fields": [
+            {"field":"NO_UF", "type":"string",},        # State's name 
+            {"field":"SG_UF", "type":"string",},        # State's abbreviation
+            {"field":"CO_UF", "type":"string",},        # State's code
+            {"field":"NO_MUNICIPIO", "type":"string",}, # City's name
+            {"field":"CO_MUNICIPIO", "type":"string",}  # City's code
+        ]
+    },
+}
+
+DIMENSION_TABLES_CONFIG.update(
+    {
+        "DIM_"+dimension.upper():{
+            "fields": [
+                {"field":dimension, "type":"integer"} 
+            ]
+        }
+        for dimension in INTEGER_DIMENSIONS
+    }
+)
+for table_name, table_config in DIMENSION_TABLES_CONFIG.items():
+    
+    print(f"[{datetime.now()}] Writing {table_name}")
+    
+    data\
+    .select(
+        [
+            F
+            .col(field["field"])
+            .cast(field["type"])
+            .alias(field["field"])
+            
+            for field
+            in table_config["fields"]
+        ]
+    )\
+    .distinct()\
+    .withColumn(
+        "id", F.monotonically_increasing_id()
+    )\
+    .write\
+    .jdbc(
+        **POSTGRES_CONFIG,
+        table=table_name,
+        mode="overwrite"
+    )
+    
+    print(f"[{datetime.now()}] Wrote {table_name}")
+    # Define id as the primary key
+    cursor = conn.cursor()
+    cursor.execute(
+        f"ALTER TABLE {table_name} ADD PRIMARY KEY (id);"
+    )
+    cursor.close()
+    conn.commit()
+
+    print(f"[{datetime.now()}] Added primary key to {table_name}")
+    print(f"[{datetime.now()}] Done")
+
+######## Creating the facts table ##########
+FACT_TABLE_NAME = "FACT_CENSO_ESCOLAR"
+
+FACT_COLUMNS = [
+    "QT_DOC_BAS",  	# Number of Teachers in the basic education (TOTAL)
+    "QT_DOC_INF",	  # Number of Teachers in the basic education (child education)
+    "QT_DOC_FUND",	# Number of Teachers in the basic education (elementary education)
+    "QT_DOC_MED",	  # Number of Teachers in the basic education (high school)
+  
+    "QT_MAT_BAS",	  # Number of enrollments in the basic education (TOTAL)
+    "QT_MAT_INF",	  # Number of enrollments in the basic education (child education)
+    "QT_MAT_FUND",	# Number of enrollments in the basic education (elementary education)
+    "QT_MAT_MED",	  # Number of enrollments in the basic education (high school)
+
+    "QT_MAT_BAS_ND",	      # Number of enrollments in the basic education - Skin color/Race Not Declared
+    "QT_MAT_BAS_BRANCA",	  # Number of enrollments in the basic education - Skin color/Race Branco
+    "QT_MAT_BAS_PRETA",	    # Number of enrollments in the basic education - Skin color/Race Preto
+    "QT_MAT_BAS_PARDA",	    # Number of enrollments in the basic education - Skin color/Race Parda
+    "QT_MAT_BAS_AMARELA",	  # Number of enrollments in the basic education - Skin color/Race Amarela
+    "QT_MAT_BAS_INDIGENA",	# Number of enrollments in the basic education - Skin color/Race Indígena
+    
+    "NU_ANO_CENSO"          # Census' year
+]
+FACT_CONFIG = {
+    fact:{
+        "fields": [
+            {"field":fact, "type":"integer"}
+        ]
+    }
+    for fact in FACT_COLUMNS
+}
+
+DIMENSION_ID_CONFIG = {
+    table_name:[
+        field['field'] 
+        for field 
+        in table_fields['fields']
+    ]
+    for table_name, table_fields in DIMENSION_TABLES_CONFIG.items()
+}
+
+FACT_TABLE_ALL_COLUMNS_ORDERED = FACT_COLUMNS + list(map(lambda col:"ID_"+col, DIMENSION_ID_CONFIG.keys()))
+
+# Create fact table
+# Using the configuration in FACT_CONFIG
+# With id as the primary key
+
+# Avoid inserting a backslash into a f-string
+comma_break_line = ",\n\t\t\t"
+facts_table_sql = f"""
+    CREATE TABLE IF NOT EXISTS {FACT_TABLE_NAME} (
+        id SERIAL PRIMARY KEY,
+        { 
+            comma_break_line.join(
+                [
+                    f"{field} INTEGER" 
+                    for field in FACT_COLUMNS
+                ]
+                +[
+                    f"ID_{dim_table} BIGINT"
+                    for dim_table in DIMENSION_ID_CONFIG.keys()
+                ]
+            )
+        }
+    );
+    
+    -- Adding Foreign Keys
+    ALTER TABLE {FACT_TABLE_NAME}
+    {
+        comma_break_line.join(
+            [
+                f"ADD CONSTRAINT {FACT_TABLE_NAME}_{dim_table}_fk FOREIGN KEY (ID_{dim_table}) REFERENCES {dim_table}(id)"
+                for dim_table in DIMENSION_ID_CONFIG.keys()
+            ]
+        )
+    }
+"""
+print(f"[{datetime.now()}] Creating facts table")
+
+cursor = conn.cursor()
+try:
+    cursor.execute(facts_table_sql)
+    cursor.close()
+    conn.commit()
+except Exception as e:
+    print(e)
+    conn.rollback()
+    cursor.close()
+else:
+    print(f"[{datetime.now()}] Created facts table")
+    print(f"[{datetime.now()}] Done")
+facts_data = data\
+    .select(
+        [
+            *chain(
+                *DIMENSION_ID_CONFIG.values(), 
+                FACT_CONFIG.keys()
+            )
+        ]
+    )
+view raw
+
+#########Join Table#########
+# Joining the id of the dimensions
+
+for table_name, table_fields in DIMENSION_ID_CONFIG.items():
+    
+    # Read the dimension data from Postgres
+    dim_table = spark.read\
+        .jdbc(
+            **POSTGRES_CONFIG,
+            table=table_name,
+        )\
+        .withColumnRenamed("id", f"ID_{table_name}")
+    
+    # Join the dimension data with the fact data
+    facts_data = facts_data\
+        .join(
+            dim_table,
+            on=table_fields,
+            how="left"
+        )\
+        .drop(*table_fields)
+# Order the columns to match the fact table on postgres
+# and save the data
+facts_data\
+    .select(*FACT_TABLE_ALL_COLUMNS_ORDERED)\
+    .write\
+    .jdbc(
+        **POSTGRES_CONFIG,
+        table=FACT_TABLE_NAME,
+        mode="append"
+    )
+
+
