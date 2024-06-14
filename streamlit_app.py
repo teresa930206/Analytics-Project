@@ -8,7 +8,7 @@ from mlxtend.frequent_patterns import association_rules
 #### Importing the data ####
 @st.cache_data
 def data_import():
-    data = pd.read_parquet("/Users/teresa930206/Downloads/Fulldata.parquet")
+    data = pd.read_parquet("Fulldata.parquet")
     return data
 
 #### Data cleaning for better results ####
@@ -108,7 +108,7 @@ def app(data,options_sales_channel, options_customer_group, options_dso_status, 
     global option_dso_status
     global option_product
     
-    st.image("/Users/teresa930206/Downloads/app/Strauman_group_band.png")
+    st.image("Strauman_group_band.png")
     st.title(":greenProduct Recommender")
     st.subheader("Enter customer and product details to get recommendation")
 
