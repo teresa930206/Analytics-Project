@@ -48,7 +48,7 @@ The dashboard is designed to provide comprehensive insights into customer orderi
 
 ![Sample Graph](graphs/Dashboard2.png)
 
-## **Market Basket Analysis(Apriori Algorithm)**
+## **Recomandation: Market Basket Analysis(Apriori Algorithm)**
 We have implemented market basket analysis to develop product recommendations. A simple GUI/app has been created, allowing users to input parameters such as customer group, sales channel, and product category. The app then outputs top recommended products that can be bundled or offered as bulk buy promotions. This tool aims to enhance cross-selling and upselling opportunities.
 - ***Function:***
 >- Used unsupervised  machine learning model (Apriori with association rule).​
@@ -62,13 +62,25 @@ We have implemented market basket analysis to develop product recommendations. A
 ![Sample Graph](graphs/Recomendation.png)
 
 ## **Market Strategy Recommendation**
-
+Based on the above recommendation from the market basket analysis, we can propose 3 possible focused marketing campaigns for the selected customer group.
+- ***Marketing Strategy to Cross-sell and Up-sell products on Website:***
+>- Bundle Recommendation (Cross-sell): Suggest complementary products based on the apriori recommendations. For ex: If a client buys BL Heating Surgical kits, recommend purchasing Instruments, Cases + Others, or Abutments.
+>-Product Upgrades (Up-sell): Offer upgrades to premium versions of the products they are purchasing. For ex: Suggest upgrading to BLAT TiZr Implants when they are buying BLAT Ti Implants for additional benefits.
 ![Sample Graph](graphs/Marketing1.png)
 
+- ***Marketing Strategy for Product Bundling Offers:***
+>- Promotions and Discounts: Volume Discounts: Discounts based on the volume of purchase, give incentives for bulk orders.
+>- Limited-Time Offers: Promote limited-time discounts on bundled packages to create urgency.
+>- Targeted Marketing Campaigns:Email Marketing: Segment email lists to target general dentists in DSOs and send tailored content about the bundled packages, highlighting the benefits associated.
 ![Sample Graph](graphs/Marketing2.png)
 
+- ***Marketing Strategy to Incorporate Referral Program:***
+>- Loyalty or Referral Programs: Introduce a referral or loyalty program offering points or discounts on future purchases to repeat customer groups. 
 ![Sample Graph](graphs/Marketing3.png)
 
+- ***Additional Recommendations to Straumann Group:***
+>- Website Optimization (Local and global SEO and landing page): Used Semrush and GTMatrix. Use of more Transactional Keywords, Engage in Local SEO, Create targeted Landing Page for product bundling and cross sell upsell offers.
+>- Offline Marketing (Trade Shows, Convections, Magazines): Attend and share marketing materials in dental trade shows, dentists conventions and publish information or advertisement in the top dentistry publications.
 ![Sample Graph](graphs/Marketing4.png)
 
 
