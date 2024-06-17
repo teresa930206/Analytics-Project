@@ -5,7 +5,11 @@ The project focusing on analyze customer buying patterns and product bundling th
 For App development, I created the html by **streamlit**.
 
 ## **Feature Engineering**
+Feature engineering entails converting raw data into features that are appropriate for machine learning models to comprehend and utilize efficiently. The aim is to improve the performance of machine learning algorithms and integrate them into dashboard development by offering meaningful and pertinent input variables.
 
+In this project, I have developed two tables ***the user_feature_table and order_feature_table*** to extract valuable insights and features.
+
+### ***user_feature_table:***
 
 
 
