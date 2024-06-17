@@ -44,6 +44,7 @@ The dashboard is designed to provide comprehensive insights into customer orderi
 - ***Relationship Between Average Order Gap and Cart Size By Customer Group:***
 >Insights from the data can improve inventory management and marketing strategies. Frequent small orders may need streamlined processes, while infrequent large orders could benefit from targeted promotions and outreach to encourage more frequent purchasing.​
 
+
 ![Sample Graph](graphs/Dashboard1.png)
 
 ![Sample Graph](graphs/Dashboard2.png)
