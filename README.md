@@ -2,7 +2,7 @@
 ## **Introduction**
 The project focusing on analyze customer buying patterns and product bundling through **Market Basket** and **unsupervised machine learning models(Apriori Algorithm)**, demonstrated thorough analysis and unique metrics, addressing feedback to improve our predictive models and dashboards. Our feature engineering process transforms raw data into actionable insights, while our dashboards and market basket analysis provide valuable tools for product recommendations and sales strategies. 
 
-For App development, I created the html by **streamlit**.
+For App development, I created the **GUI** by **streamlit**.
 
 ## **Feature Engineering**
 Feature engineering entails converting raw data into features that are appropriate for machine learning models to comprehend and utilize efficiently. The aim is to improve the performance of machine learning algorithms and integrate them into dashboard development by offering meaningful and pertinent input variables.
@@ -44,10 +44,20 @@ The dashboard is designed to provide comprehensive insights into customer orderi
 - ***Relationship Between Average Order Gap and Cart Size By Customer Group:***
 >Insights from the data can improve inventory management and marketing strategies. Frequent small orders may need streamlined processes, while infrequent large orders could benefit from targeted promotions and outreach to encourage more frequent purchasing.​
 
-
 ![Sample Graph](graphs/Dashboard1.png)
 
 ![Sample Graph](graphs/Dashboard2.png)
+
+## **Market Basket Analysis(Apriori Algorithm):**
+We have implemented market basket analysis to develop product recommendations. A simple GUI/app has been created, allowing users to input parameters such as customer group, sales channel, and product category. The app then outputs top recommended products that can be bundled or offered as bulk buy promotions. This tool aims to enhance cross-selling and upselling opportunities.
+- ***Function:***
+>Used unsupervised  machine learning model (Apriori with association rule).​
+>Data Filtering: Based on user inputs​.
+>Apriori Algorithm: To identify frequent item sets​.
+>Association Rule Mining: To generate recommendation rules.
+>Once we run the model we get the recommendation.​
+>We see recommendations (consequents) and Pickup % (confidence).​
+>Output: Top 5 product recommendations with pickup percentages
 
 ![Sample Graph](graphs/Recomendation.png)
 
