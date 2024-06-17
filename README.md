@@ -51,13 +51,13 @@ The dashboard is designed to provide comprehensive insights into customer orderi
 ## **Market Basket Analysis(Apriori Algorithm):**
 We have implemented market basket analysis to develop product recommendations. A simple GUI/app has been created, allowing users to input parameters such as customer group, sales channel, and product category. The app then outputs top recommended products that can be bundled or offered as bulk buy promotions. This tool aims to enhance cross-selling and upselling opportunities.
 - ***Function:***
->Used unsupervised  machine learning model (Apriori with association rule).​
->Data Filtering: Based on user inputs​.
->Apriori Algorithm: To identify frequent item sets​.
->Association Rule Mining: To generate recommendation rules.
->Once we run the model we get the recommendation.​
->We see recommendations (consequents) and Pickup % (confidence).​
->Output: Top 5 product recommendations with pickup percentages
+>- Used unsupervised  machine learning model (Apriori with association rule).​
+>- Data Filtering: Based on user inputs​.
+>- Apriori Algorithm: To identify frequent item sets​.
+>- Association Rule Mining: To generate recommendation rules.
+>- Once we run the model we get the recommendation.​
+>- We see recommendations (consequents) and Pickup % (confidence).​
+>- Output: Top 5 product recommendations with pickup percentages
 
 ![Sample Graph](graphs/Recomendation.png)
 
