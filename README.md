@@ -1,5 +1,5 @@
 # Market Basket Analysis for Product Bundling and Customer Behavior 
-**Introduction**
+## **Introduction**
 ![Sample Graph](graphs/Dashboard1.png)
 
 ![Sample Graph](graphs/Dashboard2.png)
