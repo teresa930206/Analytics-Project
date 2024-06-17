@@ -38,8 +38,8 @@ The dashboard is designed to provide comprehensive insights into customer orderi
 - ***Reorder Rate By Product Category(PRH4):***
 
 - ***Customer Segmentation: Purchase Behavior:***
-**High Total Purchases** indicate a strong demand for dental products.​
-**Diverse Product Range** suggests a diverse requirement for various dental materials and instruments.​
+/**High Total Purchases** indicate a strong demand for dental products.​
+/**Diverse Product Range** suggests a diverse requirement for various dental materials and instruments.​
 - ***Relationship Between Average Order Gap and Cart Size By Customer Group:***
 Insights from the data can improve inventory management and marketing strategies. Frequent small orders may need streamlined processes, while infrequent large orders could benefit from targeted promotions and outreach to encourage more frequent purchasing.​
 
