@@ -10,6 +10,17 @@ Feature engineering entails converting raw data into features that are appropria
 In this project, I have developed two tables ***the user_feature_table and order_feature_table*** to extract valuable insights and features.
 
 - ***user_feature_table:***
+This table is generated to capture various characteristics of each customer.
+
+| Feature | Description |
+|----------|----------|
+| user_reorder_rate   | Average reorder rate on orders placed.|
+| user_unique_products| Distinct product ordered.  |
+| user_total_products | Total products ordered. |
+| user_avg_cart_size | Mean products per order. = average cart size. |
+| user_avg_days_between_order | Average days between previous orders. |
+| user_reordered_products_ratio | user product reorder ratio.​ |
+
 
 
 
