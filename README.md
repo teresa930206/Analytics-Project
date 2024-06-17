@@ -17,9 +17,19 @@ This table is generated to capture various characteristics of each customer.
 | user_reorder_rate   | Average reorder rate on orders placed.|
 | user_unique_products| Distinct product ordered.  |
 | user_total_products | Total products ordered. |
-| user_avg_cart_size | Mean products per order. = average cart size. |
+| user_avg_cart_size | Mean products per order = average cart size. |
 | user_avg_days_between_order | Average days between previous orders. |
 | user_reordered_products_ratio | user product reorder ratio.​ |
+
+- ***order_feature_table:***
+This table is created to analyze features related to each order, including the PRH1 and PRH4 product categories, sales channel, PRH4 reorder rate, mean order material net value, PRH1 reorder rate, and sales channel reorder rate.
+
+| Feature | Description |
+|----------|----------|
+| PRH4_reorder_rate   | Whether the PRH4 will be reordered in the next order.​   |
+| mean_order_material_net_value   | Average order material net value in each order.​ |
+| PRH1_reorder_rate | Whether the PRH1 will be reordered in the next order.​|
+| sales_channel_reorder_rate | Whether the sales channel will be used in the next reorder.​|
 
 
 
