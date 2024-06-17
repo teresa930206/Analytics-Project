@@ -35,13 +35,14 @@ This table is created to analyze features related to each order, including the P
 The dashboard is designed to provide comprehensive insights into customer ordering patterns, product sales trends, and key business metrics. Based on the feedback received from our sponsor, we would be refining our dashboard to emphasize critical areas such as sales season analysis and repeated product purchases. 
 
 - ***Reorder Rate By Customer Group:***
+>The purpose of the "Reorder Rate By Customer Group" is to analyze and visualize the frequency at which different customer groups (such as universities, general dentists, laboratories, etc.) reorder products. This graph helps in understanding the buying behavior and loyalty of various customer segments.
 - ***Reorder Rate By Product Category(PRH4):***
-
+>The purpose of the "Reorder Rate By Product Category (PRH4)" is to analyze and visualize the frequency at which different product categories are reordered. This graph provides insights into the demand and popularity of various product categories (such as restorative solutions, implants, abutments, etc.).
 - ***Customer Segmentation: Purchase Behavior:***
 >**High Total Purchases** indicate a strong demand for dental products.​
 >**Diverse Product Range** suggests a diverse requirement for various dental materials and instruments.​
 - ***Relationship Between Average Order Gap and Cart Size By Customer Group:***
-Insights from the data can improve inventory management and marketing strategies. Frequent small orders may need streamlined processes, while infrequent large orders could benefit from targeted promotions and outreach to encourage more frequent purchasing.​
+>Insights from the data can improve inventory management and marketing strategies. Frequent small orders may need streamlined processes, while infrequent large orders could benefit from targeted promotions and outreach to encourage more frequent purchasing.​
 
 ![Sample Graph](graphs/Dashboard1.png)
 
