@@ -32,11 +32,13 @@ This table is created to analyze features related to each order, including the P
 | sales_channel_reorder_rate | Whether the sales channel will be used in the next reorder.​|
 
 ## **Target Customer Dashboard**
-
+The dashboard is designed to provide comprehensive insights into customer ordering patterns, product sales trends, and key business metrics. Based on the feedback received from our sponsor, we would be refining our dashboard to emphasize critical areas such as sales season analysis and repeated product purchases. 
 
 ![Sample Graph](graphs/Dashboard1.png)
 
 ![Sample Graph](graphs/Dashboard2.png)
+
+![Sample Graph](graphs/Recomendation.png)
 
 ![Sample Graph](graphs/Marketing1.png)
 
@@ -46,4 +48,4 @@ This table is created to analyze features related to each order, including the P
 
 ![Sample Graph](graphs/Marketing4.png)
 
-![Sample Graph](graphs/Recomendation.png)
+
