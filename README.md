@@ -31,7 +31,7 @@ This table is created to analyze features related to each order, including the P
 | PRH1_reorder_rate | Whether the PRH1 will be reordered in the next order.​|
 | sales_channel_reorder_rate | Whether the sales channel will be used in the next reorder.​|
 
-
+## **Target Customer Dashboard**
 
 
 ![Sample Graph](graphs/Dashboard1.png)
