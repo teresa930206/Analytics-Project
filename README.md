@@ -22,22 +22,22 @@ This table is generated to capture various characteristics of each customer.
 | user_reordered_products_ratio | user product reorder ratio.​ |
 
 - ***order_feature_table:***
-This table is created to analyze features related to each order, including the PRH1 and PRH4 product categories, sales channel, PRH4 reorder rate, mean order material net value, PRH1 reorder rate, and sales channel reorder rate.
+This table is created to analyze features related to each order, including the **A** and **B** product categories, sales channel, **B** reorder rate, mean order material net value, **A** reorder rate, and sales channel reorder rate.
 
 | Feature | Description |
 |----------|----------|
-| PRH4_reorder_rate   | Whether the PRH4 will be reordered in the next order.​   |
+| B_reorder_rate   | Whether the **B** will be reordered in the next order.​   |
 | mean_order_material_net_value   | Average order material net value in each order.​ |
-| PRH1_reorder_rate | Whether the PRH1 will be reordered in the next order.​|
+| A_reorder_rate | Whether the **A** will be reordered in the next order.​|
 | sales_channel_reorder_rate | Whether the sales channel will be used in the next reorder.​|
 
 ## **Target Customer Dashboard**
 The dashboard is designed to provide comprehensive insights into customer ordering patterns, product sales trends, and key business metrics. Based on the feedback received from our sponsor, we would be refining our dashboard to emphasize critical areas such as sales season analysis and repeated product purchases. 
 
 - ***Reorder Rate By Customer Group:***
->The purpose of the "Reorder Rate By Customer Group" is to analyze and visualize the frequency at which different customer groups (such as universities, general dentists, laboratories, etc.) reorder products. This graph helps in understanding the buying behavior and loyalty of various customer segments.
-- ***Reorder Rate By Product Category(PRH4):***
->The purpose of the "Reorder Rate By Product Category (PRH4)" is to analyze and visualize the frequency at which different product categories are reordered. This graph provides insights into the demand and popularity of various product categories (such as restorative solutions, implants, abutments, etc.).
+>The purpose of the "Reorder Rate By Customer Group" is to analyze and visualize the frequency at which different customer groups reorder products. This graph helps in understanding the buying behavior and loyalty of various customer segments.
+- ***Reorder Rate By Product Category(B):***
+>The purpose of the "Reorder Rate By Product Category (B)" is to analyze and visualize the frequency at which different product categories are reordered. This graph provides insights into the demand and popularity of various product categories.
 - ***Customer Segmentation: Purchase Behavior:***
 >**High Total Purchases** indicate a strong demand for dental products.​
 >**Diverse Product Range** suggests a diverse requirement for various dental materials and instruments.​
@@ -64,14 +64,14 @@ We have implemented market basket analysis to develop product recommendations. A
 ## **Market Strategy Recommendation**
 Based on the above recommendation from the market basket analysis, we can propose 3 possible focused marketing campaigns for the selected customer group.
 - ***Marketing Strategy to Cross-sell and Up-sell products on Website:***
->- Bundle Recommendation (Cross-sell): Suggest complementary products based on the apriori recommendations. For ex: If a client buys BL Heating Surgical kits, recommend purchasing Instruments, Cases + Others, or Abutments.
->-Product Upgrades (Up-sell): Offer upgrades to premium versions of the products they are purchasing. For ex: Suggest upgrading to BLAT TiZr Implants when they are buying BLAT Ti Implants for additional benefits.
+>- Bundle Recommendation (Cross-sell): Suggest complementary products based on the apriori recommendations. 
+>-Product Upgrades (Up-sell): Offer upgrades to premium versions of the products they are purchasing. 
 ![Sample Graph](graphs/Marketing1.png)
 
 - ***Marketing Strategy for Product Bundling Offers:***
 >- Promotions and Discounts: Volume Discounts: Discounts based on the volume of purchase, give incentives for bulk orders.
 >- Limited-Time Offers: Promote limited-time discounts on bundled packages to create urgency.
->- Targeted Marketing Campaigns:Email Marketing: Segment email lists to target general dentists in DSOs and send tailored content about the bundled packages, highlighting the benefits associated.
+>- Targeted Marketing Campaigns:Email Marketing: Segment email lists to target general dentists in the organization and send tailored content about the bundled packages, highlighting the benefits associated.
 ![Sample Graph](graphs/Marketing2.png)
 
 - ***Marketing Strategy to Incorporate Referral Program:***
